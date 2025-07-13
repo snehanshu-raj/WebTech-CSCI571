@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>My Coursework Home</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #8e44ad, #e91e63);
+      color: #f0e6f6;
+      text-align: center;
+      padding: 60px 20px;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    h1 {
+      margin-bottom: 50px;
+      font-size: 3rem;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      letter-spacing: 2px;
+    }
+    .hw-links {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    .hw-links a {
+      text-decoration: none;
+      padding: 22px 50px;
+      background: linear-gradient(45deg, #e91e63, #8e44ad);
+      border-radius: 12px;
+      font-size: 1.4rem;
+      font-weight: 600;
+      color: #fff;
+      box-shadow: 0 6px 15px rgba(233, 30, 99, 0.6);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      display: inline-block;
+      user-select: none;
+      position: relative;
+    }
+    /* Black fading border on HW1 button */
+    .hw-links a[href="HW1/index.html"] {
+      box-shadow:
+        0 6px 15px rgba(0, 0, 0, 0.6),
+        inset 0 0 10px rgba(0, 0, 0, 0.4);
+    }
+    .hw-links a:hover,
+    .hw-links a:focus {
+      background: linear-gradient(45deg, #8e44ad, #e91e63);
+      transform: scale(1.1);
+      box-shadow: 0 10px 30px rgba(142, 68, 173, 0.8);
+      outline: none;
+    }
+    /* Hover effect for HW1 keeps black border */
+    .hw-links a[href="HW1/index.html"]:hover,
+    .hw-links a[href="HW1/index.html"]:focus {
+      box-shadow:
+        0 10px 30px rgba(0, 0, 0, 0.8),
+        inset 0 0 15px rgba(0, 0, 0, 0.6);
+    }
+    /* Accessibility focus outline */
+    .hw-links a:focus-visible {
+      outline: 3px solid #f48fb1;
+      outline-offset: 4px;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome to My Coursework</h1>
+  <div class="hw-links">
+    <a href="HW1/index.html" title="Go to Homework 1">HW1</a>
+    <a href="HW2/" title="Go to Homework 2">HW2</a>
+    <a href="HW3/" title="Go to Homework 3">HW3</a>
+  </div>
+</body>
+</html>

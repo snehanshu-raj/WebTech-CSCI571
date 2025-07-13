@@ -1,0 +1,18 @@
+1.
+Generate a complete standalone HTML file that displays 5 paragraphs of 'Lorem ipsum' text. Each paragraph must have:
+- A distinct font size: 10px, 12px, 15px, 20px, and 30px (in that order).
+- A 10px solid border, with the border colors following the rainbow order: red, orange, yellow, green, blue.
+- Use CSS and JS within the HTML itself.
+
+2.
+Generate a complete standalone HTML file that shows a slideshow of 10 images using only CSS (no JavaScript). 
+Each image should fade into the next one automatically. Include the <style> block inside the <head>, 
+and structure the images so that I can easily replace the URLs with local files later.
+
+3. 
+Generate a complete standalone HTML file that displays a slideshow of 10 images using JavaScript only (not using CSS animations). The slideshow should:
+- Automatically change images every 3 seconds.
+- Display each image in a container.
+- Use JavaScript to rotate the images.
+- Include an array of image links inside the <script> so it's easy to edit.
+- Ensure the image fits the container and is fully visible (use object-fit: contain).

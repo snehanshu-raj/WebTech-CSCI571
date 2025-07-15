@@ -8,7 +8,7 @@ Generate a complete standalone HTML file that displays 5 paragraphs of 'Lorem ip
 Generate a complete standalone HTML file that shows a slideshow of 10 images using only CSS (no JavaScript). 
 Each image should fade into the next one automatically. Include the <style> block inside the <head>, 
 and structure the images so that I can easily replace the URLs with local files later.
-
+    
 3. 
 Generate a complete standalone HTML file that displays a slideshow of 10 images using JavaScript only (not using CSS animations). The slideshow should:
 - Automatically change images every 3 seconds.

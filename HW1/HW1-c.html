@@ -58,6 +58,27 @@
       position: relative;
       pointer-events: auto;
     }
+
+    .nav {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin: 40px 0;
+    }
+
+    .nav a {
+        text-decoration: none;
+        padding: 12px 24px;
+        background-color: #4CAF50;
+        color: white;
+        border-radius: 8px;
+        font-weight: bold;
+        transition: background-color 0.3s ease;
+    }
+
+    .nav a:hover {
+        background-color: #388e3c;
+    }
   </style>
 </head>
 <body>
@@ -68,16 +89,16 @@
 
   <script>
     const images = [
-      "images/img1.jpeg",
-      "images/img2.jpeg",
-      "images/img3.jpeg",
-      "images/img4.jpeg",
-      "images/img5.jpeg",
-      "images/img6.jpeg",
-      "images/img7.jpeg",
-      "images/img8.jpeg",
-      "images/img9.jpeg",
-      "images/img10.jpeg"
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img1.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img2.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img3.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img4.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img5.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img6.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img7.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img8.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img9.jpeg",
+        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img10.jpeg"
     ];
 
     const container = document.getElementById('slideshow-container');
@@ -101,5 +122,10 @@
       imgs[currentIndex].classList.add('active');
     }, intervalTime);
   </script>
+
+<div class="nav">
+    <a href="HW1-a.html">Go to HW1-a</a>
+    <a href="HW1-b.html">Go to HW1-b</a>
+</div>
 </body>
 </html>

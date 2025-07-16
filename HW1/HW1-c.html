@@ -1,65 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8" />
-  <title>JS Slideshow</title>
+  <title>JS Only Slideshow</title>
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      background: #111;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: #ffcc00;
-      user-select: none;
-    }
-
-    .caption {
-      font-size: 2.5rem;
-      font-weight: bold;
-      letter-spacing: 2px;
-      color: #ffcc00;
-      text-shadow: 0 0 12px rgba(255, 204, 0, 0.8);
-      margin-bottom: 25px;
-    }
-
-    #slideshow-container {
-      position: relative;
-      width: 800px;
-      max-width: 95vw;
-      height: 400px;
-      border: 5px solid #ffcc00;
-      border-radius: 15px;
-      overflow: hidden;
-      background: #000;
-      box-shadow: 0 0 30px #ffcc00aa;
-    }
-
-    #slideshow-container img {
-      width: 100%;
-      height: 100%;
-      object-fit: contain;
-      position: absolute;
-      top: 0; left: 0;
-      transition: opacity 1s ease-in-out;
-      opacity: 0;
-      border-radius: 10px;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    /* Show the visible image */
-    #slideshow-container img.active {
-      opacity: 1;
-      position: relative;
-      pointer-events: auto;
-    }
-
-    .nav {
+  .nav {
         display: flex;
         justify-content: center;
         gap: 20px;
@@ -82,50 +27,74 @@
   </style>
 </head>
 <body>
-  <div class="caption">SRJ’s Crafts</div>
-  <div id="slideshow-container">
-    <!-- Images will be created by JS -->
-  </div>
-
   <script>
     const images = [
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img1.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img2.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img3.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img4.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img5.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img6.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img7.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img8.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img9.jpeg",
-        "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img10.jpeg"
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img1.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img2.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img3.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img4.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img5.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img6.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img7.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img8.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img9.jpeg",
+      "https://raw.githubusercontent.com/snehanshu-raj/WebTech-CSCI571/main/HW1/images/img10.jpeg"
     ];
 
-    const container = document.getElementById('slideshow-container');
+    // Caption
+    const heading = document.createElement('h1');
+    heading.innerText = "SRJ's Crafts";
+    heading.style.color = '#ffcc00';
+    heading.style.textAlign = 'center';
+    heading.style.fontFamily = 'Segoe UI, sans-serif';
+    heading.style.marginBottom = '20px';
+    document.body.appendChild(heading);
 
-    // Create img elements for all images, but only show first
-    images.forEach((src, i) => {
+    // Slideshow container
+    const container = document.createElement('div');
+    container.style.width = '800px';
+    container.style.maxWidth = '95vw';
+    container.style.height = '450px';
+    container.style.margin = '0 auto';
+    container.style.position = 'relative';
+    container.style.border = '4px solid #ffcc00';
+    container.style.borderRadius = '10px';
+    container.style.overflow = 'hidden';
+    container.style.backgroundColor = 'black';
+    document.body.style.backgroundColor = '#111';
+    document.body.style.margin = '0';
+    document.body.style.padding = '40px';
+    document.body.style.display = 'flex';
+    document.body.style.flexDirection = 'column';
+    document.body.style.alignItems = 'center';
+    document.body.appendChild(container);
+
+    // Load images
+    const imgElements = images.map((src, idx) => {
       const img = document.createElement('img');
       img.src = src;
-      if(i === 0) img.classList.add('active');
+      img.style.width = '100%';
+      img.style.height = '100%';
+      img.style.objectFit = 'contain';
+      img.style.position = 'absolute';
+      img.style.top = '0';
+      img.style.left = '0';
+      img.style.display = idx === 0 ? 'block' : 'none';
       container.appendChild(img);
+      return img;
     });
 
+    // Rotate images
     let currentIndex = 0;
-    const imgs = container.querySelectorAll('img');
-    const total = imgs.length;
-    const intervalTime = 2000; 
-
     setInterval(() => {
-      imgs[currentIndex].classList.remove('active');
-      currentIndex = (currentIndex + 1) % total;
-      imgs[currentIndex].classList.add('active');
-    }, intervalTime);
+      imgElements[currentIndex].style.display = 'none';
+      currentIndex = (currentIndex + 1) % imgElements.length;
+      imgElements[currentIndex].style.display = 'block';
+    }, 2000);
   </script>
-
-<div class="nav">
+  <div class="nav">
     <a href="HW1-a.html">Go to HW1-a</a>
-    <a href="HW1-b.html">Go to HW1-b</a>
+    <a href="HW1-b.html">Go to HW1-c</a>
 </div>
 </body>
 </html>

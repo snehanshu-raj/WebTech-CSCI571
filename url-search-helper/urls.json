@@ -1,0 +1,50 @@
+[
+  {
+    "id": 1,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=bare",
+    "description": "Barebones live coding environment for HTML, CSS, and JavaScript. Great for quick prototyping and testing.",
+    "dateAdded": "2024-01-15"
+  },
+  {
+    "id": 2,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=img-gif",
+    "description": "Web GIF component demo",
+    "dateAdded": "2024-01-20"
+  },
+  {
+    "id": 3,
+    "url": "https://bytes.usc.edu/cs571/m25_TheWeb-bu/home/index.html",
+    "description": "CSCI571 Web Tech Home",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 4,
+    "url": "https://piazza.com/usc/summer2025/csci571",
+    "description": "CSCI571 piazza",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 5,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=att-m25_5_7_1",
+    "description": "CSCI571 Web Tech Attendance",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 6,
+    "url": "https://bytes.usc.edu/cs571/m25_TheWeb-bu/lectures/index.html",
+    "description": "CSCI571 Web Tech lectures",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 7,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/c/prtt.js",
+    "description": "CSCI571 Web Tech prtt JS JavaScript code",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 8,
+    "url": "https://bytes.usc.edu/cs585/m25_dataaawww/home/index.html",
+    "description": "CSCI585 Databases Home",
+    "dateAdded": "2024-01-25"
+  }
+]

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>URL Search Helper</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            font-weight: 300;
+        }
+
+        .search-section {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 2px solid #e9ecef;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .search-btn, .clear-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn {
+            background: #667eea;
+            color: white;
+        }
+
+        .search-btn:hover {
+            background: #5a67d8;
+        }
+
+        .clear-btn {
+            background: #6c757d;
+            color: white;
+        }
+
+        .clear-btn:hover {
+            background: #5a6268;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 18px;
+        }
+
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid #f5c6cb;
+        }
+
+        .results-info {
+            margin-bottom: 20px;
+            color: #666;
+            font-style: italic;
+        }
+
+        .url-grid {
+            display: grid;
+            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+        }
+
+        .url-card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 10px;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .url-card:hover {
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .url-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            word-break: break-all;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        .url-link:hover {
+            text-decoration: underline;
+        }
+
+        .url-description {
+            color: #555;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .url-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: #888;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 10px;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #666;
+            font-style: italic;
+            padding: 40px;
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .search-highlight {
+            background-color: #ffeb3b;
+            padding: 1px 2px;
+            border-radius: 2px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .search-bar {
+                flex-direction: column;
+            }
+            
+            .url-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>URL Search Engine - Prof. Saty's Classes</h1>
+        
+        <!-- Search Section -->
+        <div class="search-section">
+            <div class="search-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search URLs by link or description..." />
+                <button onclick="searchURLs()" class="search-btn">🔍 Search</button>
+                <button onclick="clearSearch()" class="clear-btn">Clear</button>
+            </div>
+        </div>
+
+        <!-- Loading/Error States -->
+        <div id="loadingState" class="loading">Loading URLs...</div>
+        <div id="errorState" class="error" style="display: none;"></div>
+
+        <!-- Results Info -->
+        <div id="resultsInfo" class="results-info" style="display: none;"></div>
+
+        <!-- URL Grid -->
+        <div id="urlGrid" class="url-grid"></div>
+    </div>
+
+    <script>
+        let urls = [];
+        let filteredUrls = [];
+
+        // Load URLs from JSON file
+        async function loadURLsFromJSON() {
+            try {
+                const response = await fetch('urls.json');
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                urls = await response.json();
+                filteredUrls = [...urls];
+                
+                // Hide loading state
+                document.getElementById('loadingState').style.display = 'none';
+                document.getElementById('resultsInfo').style.display = 'block';
+                
+                renderURLs();
+                
+            } catch (error) {
+                console.error('Error loading URLs:', error);
+                showError(`Failed to load URLs: ${error.message}`);
+            }
+        }
+
+        // Show error message
+        function showError(message) {
+            document.getElementById('loadingState').style.display = 'none';
+            const errorState = document.getElementById('errorState');
+            errorState.textContent = message;
+            errorState.style.display = 'block';
+        }
+
+        // Highlight search terms in text
+        function highlightSearchTerms(text, searchTerm) {
+            if (!searchTerm) return text;
+            
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            return text.replace(regex, '<span class="search-highlight">$1</span>');
+        }
+
+        // Render URLs
+        function renderURLs() {
+            const grid = document.getElementById('urlGrid');
+            const resultsInfo = document.getElementById('resultsInfo');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            resultsInfo.textContent = `Showing ${filteredUrls.length} of ${urls.length} URLs`;
+            
+            if (filteredUrls.length === 0) {
+                if (urls.length === 0) {
+                    grid.innerHTML = '<div class="no-results">No URLs loaded. Please check your urls.json file.</div>';
+                } else {
+                    grid.innerHTML = '<div class="no-results">No URLs found matching your search. Try different keywords!</div>';
+                }
+                return;
+            }
+
+            grid.innerHTML = filteredUrls.map(url => `
+                <div class="url-card">
+                    <a href="${url.url}" target="_blank" class="url-link">${highlightSearchTerms(url.url, searchTerm)}</a>
+                    <div class="url-description">${highlightSearchTerms(url.description, searchTerm)}</div>
+                    <div class="url-meta">
+                        <span>Added: ${url.dateAdded}</span>
+                        <span>ID: ${url.id}</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Search functionality
+        function searchURLs() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+            
+            if (searchTerm === '') {
+                filteredUrls = [...urls];
+            } else {
+                filteredUrls = urls.filter(url => 
+                    url.url.toLowerCase().includes(searchTerm) || 
+                    url.description.toLowerCase().includes(searchTerm)
+                );
+            }
+            
+            renderURLs();
+        }
+
+        // Clear search
+        function clearSearch() {
+            document.getElementById('searchInput').value = '';
+            filteredUrls = [...urls];
+            renderURLs();
+        }
+
+        // Real-time search as user types
+        function setupRealTimeSearch() {
+            const searchInput = document.getElementById('searchInput');
+            let searchTimeout;
+
+            searchInput.addEventListener('input', function() {
+                clearTimeout(searchTimeout);
+                searchTimeout = setTimeout(() => {
+                    searchURLs();
+                }, 300); // Debounce search by 300ms
+            });
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchURLs();
+            }
+        });
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadURLsFromJSON();
+            setupRealTimeSearch();
+        });
+    </script>
+</body>
+</html>

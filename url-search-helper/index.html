@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>URL Search Helper</title>
+    <title>URLs Search Helper</title>
     <style>
         * {
             margin: 0;
@@ -16,28 +16,31 @@
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .container {
-            max-width: 1200px;
-            margin: 0 auto;
+            max-width: 800px;
+            width: 100%;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 15px;
-            padding: 30px;
+            padding: 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
 
         h1 {
-            text-align: center;
             color: #333;
-            margin-bottom: 30px;
+            margin-bottom: 40px;
             font-size: 2.5rem;
             font-weight: 300;
         }
 
         .search-section {
             background: #f8f9fa;
-            padding: 25px;
+            padding: 30px;
             border-radius: 10px;
             margin-bottom: 30px;
             border: 2px solid #e9ecef;
@@ -46,25 +49,29 @@
         .search-bar {
             display: flex;
             gap: 15px;
+            justify-content: center;
             margin-bottom: 20px;
         }
 
         .search-input {
             flex: 1;
-            padding: 12px 20px;
+            max-width: 400px;
+            padding: 15px 20px;
             border: 2px solid #ddd;
             border-radius: 8px;
-            font-size: 16px;
+            font-size: 18px;
             transition: border-color 0.3s ease;
+            text-align: center;
         }
 
         .search-input:focus {
             outline: none;
             border-color: #667eea;
+            text-align: left;
         }
 
         .search-btn, .clear-btn {
-            padding: 12px 24px;
+            padding: 15px 25px;
             border: none;
             border-radius: 8px;
             font-size: 16px;
@@ -90,11 +97,20 @@
             background: #5a6268;
         }
 
+        .database-info {
+            background: #e3f2fd;
+            color: #1565c0;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 16px;
+            border: 1px solid #bbdefb;
+        }
+
         .loading {
-            text-align: center;
-            padding: 40px;
             color: #666;
             font-size: 18px;
+            padding: 20px;
         }
 
         .error {
@@ -110,12 +126,14 @@
             margin-bottom: 20px;
             color: #666;
             font-style: italic;
+            font-size: 16px;
         }
 
         .url-grid {
             display: grid;
             gap: 20px;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            text-align: left;
         }
 
         .url-card {
@@ -163,10 +181,9 @@
         }
 
         .no-results {
-            text-align: center;
             color: #666;
             font-style: italic;
-            padding: 40px;
+            padding: 30px;
             background: #f8f9fa;
             border-radius: 8px;
         }
@@ -177,13 +194,29 @@
             border-radius: 2px;
         }
 
+        .welcome-message {
+            color: #666;
+            font-size: 18px;
+            margin-bottom: 30px;
+            line-height: 1.5;
+        }
+
         @media (max-width: 768px) {
             .container {
-                padding: 15px;
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2rem;
             }
             
             .search-bar {
                 flex-direction: column;
+                align-items: center;
+            }
+            
+            .search-input {
+                max-width: 100%;
             }
             
             .url-grid {
@@ -194,33 +227,33 @@
 </head>
 <body>
     <div class="container">
-        <h1>URL Search Engine - Prof. Saty's Classes</h1>
+        <h1>🔍 URL Search Helper</h1>
+        <p class="welcome-message">Prof. Saty's Class Resources</p>
         
-        <!-- Search Section -->
+        <div id="databaseInfo" class="database-info" style="display: none;">
+            📚 Database loaded with <strong><span id="urlCount">0</span> URLs</strong> ready for search
+        </div>
+        
         <div class="search-section">
             <div class="search-bar">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search URLs by link or description..." />
+                <input type="text" id="searchInput" class="search-input" placeholder="Start typing to search URLs..." />
                 <button onclick="searchURLs()" class="search-btn">🔍 Search</button>
                 <button onclick="clearSearch()" class="clear-btn">Clear</button>
             </div>
         </div>
 
-        <!-- Loading/Error States -->
-        <div id="loadingState" class="loading">Loading URLs...</div>
+        <div id="loadingState" class="loading">Loading URL database...</div>
         <div id="errorState" class="error" style="display: none;"></div>
-
-        <!-- Results Info -->
         <div id="resultsInfo" class="results-info" style="display: none;"></div>
-
-        <!-- URL Grid -->
         <div id="urlGrid" class="url-grid"></div>
     </div>
 
     <script>
         let urls = [];
         let filteredUrls = [];
+        let hasSearched = false;
 
-        // Load URLs from JSON file
+        // URLs are currently being loaded from the urls.json file
         async function loadURLsFromJSON() {
             try {
                 const response = await fetch('urls.json');
@@ -232,11 +265,9 @@
                 urls = await response.json();
                 filteredUrls = [...urls];
                 
-                // Hide loading state
                 document.getElementById('loadingState').style.display = 'none';
-                document.getElementById('resultsInfo').style.display = 'block';
-                
-                renderURLs();
+                document.getElementById('databaseInfo').style.display = 'block';
+                document.getElementById('urlCount').textContent = urls.length;
                 
             } catch (error) {
                 console.error('Error loading URLs:', error);
@@ -244,7 +275,6 @@
             }
         }
 
-        // Show error message
         function showError(message) {
             document.getElementById('loadingState').style.display = 'none';
             const errorState = document.getElementById('errorState');
@@ -252,7 +282,7 @@
             errorState.style.display = 'block';
         }
 
-        // Highlight search terms in text
+        // to highlight the searched substring in the matching string -> can be either in url or desc
         function highlightSearchTerms(text, searchTerm) {
             if (!searchTerm) return text;
             
@@ -260,13 +290,20 @@
             return text.replace(regex, '<span class="search-highlight">$1</span>');
         }
 
-        // Render URLs
         function renderURLs() {
             const grid = document.getElementById('urlGrid');
             const resultsInfo = document.getElementById('resultsInfo');
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             
-            resultsInfo.textContent = `Showing ${filteredUrls.length} of ${urls.length} URLs`;
+            // search results to be showed only when there is text in search box
+            if (!hasSearched && searchTerm === '') {
+                grid.innerHTML = '';
+                resultsInfo.style.display = 'none';
+                return;
+            }
+            
+            resultsInfo.style.display = 'block';
+            resultsInfo.textContent = `Found ${filteredUrls.length} of ${urls.length} URLs`;
             
             if (filteredUrls.length === 0) {
                 if (urls.length === 0) {
@@ -289,13 +326,15 @@
             `).join('');
         }
 
-        // Search functionality
+        // Search 
         function searchURLs() {
             const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
             
             if (searchTerm === '') {
+                hasSearched = false;
                 filteredUrls = [...urls];
             } else {
+                hasSearched = true;
                 filteredUrls = urls.filter(url => 
                     url.url.toLowerCase().includes(searchTerm) || 
                     url.description.toLowerCase().includes(searchTerm)
@@ -305,14 +344,15 @@
             renderURLs();
         }
 
-        // Clear search
         function clearSearch() {
             document.getElementById('searchInput').value = '';
             filteredUrls = [...urls];
-            renderURLs();
+            hasSearched = false; 
+    
+            document.getElementById('urlGrid').innerHTML = '';
+            document.getElementById('resultsInfo').style.display = 'none';
         }
 
-        // Real-time search as user types
         function setupRealTimeSearch() {
             const searchInput = document.getElementById('searchInput');
             let searchTimeout;
@@ -320,19 +360,28 @@
             searchInput.addEventListener('input', function() {
                 clearTimeout(searchTimeout);
                 searchTimeout = setTimeout(() => {
-                    searchURLs();
-                }, 300); // Debounce search by 300ms
+                    const searchTerm = this.value.trim();
+                    
+                    if (searchTerm !== '') {
+                        hasSearched = true;
+                        searchURLs();
+                    } else {
+                        // reset when search box empty
+                        hasSearched = false;
+                        filteredUrls = [...urls];
+                        document.getElementById('urlGrid').innerHTML = '';
+                        document.getElementById('resultsInfo').style.display = 'none';
+                    }
+                }, 300);
             });
         }
 
-        // Search on Enter key
         document.getElementById('searchInput').addEventListener('keypress', function(e) {
             if (e.key === 'Enter') {
                 searchURLs();
             }
         });
 
-        // Initialize app
         document.addEventListener('DOMContentLoaded', function() {
             loadURLsFromJSON();
             setupRealTimeSearch();

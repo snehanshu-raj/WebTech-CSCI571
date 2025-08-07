@@ -46,5 +46,11 @@
     "url": "https://bytes.usc.edu/cs585/m25_dataaawww/home/index.html",
     "description": "CSCI585 Databases Home",
     "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 9,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=att-m25-5-8-5-",
+    "description": "CSCI585 Databases Attendance",
+    "dateAdded": "2024-01-25"
   }
 ]

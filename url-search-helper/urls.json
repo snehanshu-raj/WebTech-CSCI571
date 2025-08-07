@@ -52,5 +52,29 @@
     "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=att-m25-5-8-5-",
     "description": "CSCI585 Databases Attendance",
     "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 10,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=SVGRenNeg",
+    "description": "Web Tech SVG RenGen demo",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 11,
+    "url": " https://bytes.usc.edu/~saty/tools/xem/run.html?x=SVGRen",
+    "description": "Web Tech SVG Ren demo",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 12,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=CindyJS",
+    "description": "Web Tech CindyJS Maths Chart",
+    "dateAdded": "2024-01-25"
+  },
+  {
+    "id": 13,
+    "url": "https://bytes.usc.edu/~saty/tools/xem/run.html?x=SVGBare",
+    "description": "Web Tech SVG Bare",
+    "dateAdded": "2024-01-25"
   }
 ]
